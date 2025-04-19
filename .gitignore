@@ -1,0 +1,6 @@
+#git ignore dos arquivos pycache
+__pycache__/
+#git ignore dos arquivos .pyc
+*.pyc
+#git ignore dos arquivos .pyo
+*.pyo
