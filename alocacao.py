@@ -3,10 +3,6 @@ from dataclasses import dataclass
 from typing import List
 from utils import calcular_multa
 from read_document import ler_dados
-from vizinhancas.vnd import VND
-from vizinhancas.swap11_inter import swap_1_1_interrotas
-from vizinhancas.swap11_intra import swap_1_1_intrarrotas
-from vizinhancas.reinsertion_inter import reinsertion_interrotas
 
 @dataclass
 class Voo:
@@ -74,21 +70,7 @@ def alocar_voos(instancia):
             
             multa = calcular_multa(tempo_atual,voo)
             print(f"  {voo.nome}  (Início: {tempo_atual}, Multa: {multa})")
-            tempo_atual+=voo.custo
+            tempo_atual+=voo.custo  
     
     print(f"\nCusto total da alocação: {custo_total}\n")
-    return pistas,custo_total,dados
-
-a1 = alocar_voos("instancias_teste/n3m20D.txt")
-
-interrotas = swap_1_1_interrotas(a1[0],a1[2])
-print("interrotas", interrotas[1])
-intrarrotas = swap_1_1_intrarrotas(a1[0],a1[2])
-print("intrarrotas", intrarrotas[1])
-reinsercao = reinsertion_interrotas(a1[0],a1[2])
-print("ri_interrotas",reinsercao[1])
-
-
-a2 = VND(a1[0],a1[1],a1[2])
-#alocar_voos("instancias_teste/n3m10A.txt")
-#alocar_voos("instancias_teste/n5m50E.txt")
+    return pistas, custo_total, dados
