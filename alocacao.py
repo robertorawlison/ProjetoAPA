@@ -77,7 +77,7 @@ def alocar_voos(instancia):
     return pistas, custo_total, dados
 
 # função da fase de construção do GRASP
-def construcao_grasp(instancia, alpha=0.3):
+def Construcao(instancia, alpha=0.3):
     dados = ler_dados(instancia)
     voos = [
         Voo(
