@@ -1,0 +1,21 @@
+Instancia,Otimo,Solucao (HC),Tempo (HC),Gap (HC),Solucao (VND),Tempo (VND),Gap (VND)
+n3m10A.txt,7483,23940,0.0003 segundos,219.93,7483,0.0348 segundos,0.0
+n3m10B.txt,1277,5559,0.0004 segundos,335.32,1277,0.0278 segundos,0.0
+n3m10C.txt,2088,10301,0.0004 segundos,393.34,2150,0.0416 segundos,2.97
+n3m10D.txt,322,5124,0.0005 segundos,1491.3,322,0.0396 segundos,0.0
+n3m10E.txt,3343,6920,0.0004 segundos,107.0,3452,0.0281 segundos,3.26
+n3m20A.txt,8280,88820,0.0005 segundos,972.71,38393,0.6075 segundos,363.68
+n3m20B.txt,1820,66010,0.0005 segundos,3526.92,23354,0.2864 segundos,1183.19
+n3m20C.txt,855,33006,0.0005 segundos,3760.35,8293,0.2691 segundos,869.94
+n3m20D.txt,4357,16477,0.0005 segundos,278.17,4785,0.3029 segundos,9.82
+n3m20E.txt,3798,33326,0.0005 segundos,777.46,3827,0.2962 segundos,0.76
+n3m40A.txt,112,300549,0.0007 segundos,268247.32,59723,6.9639 segundos,53224.11
+n3m40B.txt,880,190776,0.0008 segundos,21579.09,45167,7.2032 segundos,5032.61
+n3m40C.txt,1962,287714,0.0008 segundos,14564.32,55750,7.0927 segundos,2741.49
+n3m40D.txt,263,74363,0.0008 segundos,28174.9,16058,5.0780 segundos,6005.7
+n3m40E.txt,1192,50722,0.0008 segundos,4155.2,19824,3.7513 segundos,1563.09
+n5m50A.txt,0,363794,0.0010 segundos,-1.0,89595,24.0626 segundos,-1.0
+n5m50B.txt,0,289454,0.0009 segundos,-1.0,36014,19.0627 segundos,-1.0
+n5m50C.txt,0,90412,0.0009 segundos,-1.0,18797,14.1522 segundos,-1.0
+n5m50D.txt,0,66633,0.0009 segundos,-1.0,19291,11.5121 segundos,-1.0
+n5m50E.txt,0,49347,0.0010 segundos,-1.0,10487,8.3749 segundos,-1.0
