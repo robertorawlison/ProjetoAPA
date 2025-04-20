@@ -77,54 +77,82 @@ def alocar_voos(instancia):
     return pistas, custo_total, dados
 
 # função da fase de construção do GRASP
-def Construcao(instancia, alpha):
+def construcao_grasp(instancia, alpha=0.3):
     dados = ler_dados(instancia)
-    s = [[] for _ in range(dados.n_pistas)]  # Solução parcial
-    C = list(range(dados.n_voos))  # Conjunto de candidatos
+    voos = [
+        Voo(
+            nome=f"QUICK{i+1}",
+            id=i,
+            custo=dados.custos_operacao[i],
+            tempo_liberacao = dados.tempos_pouso_decolagem[i],
+            penalidade = dados.penalidades_atraso[i]
+        )
+        for i in range(dados.n_voos)
+    ]
+    
+    voos.sort(key=lambda v: v.tempo_liberacao)  # Ordena os voos pelo tempo de liberação
+
+    # Criando a lista de candidatos restrita (LCR) com base em alpha
+    LCR = []
+    for voo in voos:
+        # Critério guloso: voo com menor tempo de liberação
+        if len(LCR) == 0:
+            LCR.append(voo)
+        else:
+            # Comparando o voo atual com o voo na LCR com o critério de custo
+            if voo.tempo_liberacao < LCR[0].tempo_liberacao:
+                LCR.insert(0, voo)  # Insere no começo
+            else:
+                LCR.append(voo)  # Insere no final
+    
+    # Seleção aleatória com base no alpha
+    LCR_size = len(LCR)
+    limit = int(LCR_size * alpha)
+    LCR_restrita = LCR[:limit]
+    voo_selecionado = choice(LCR_restrita)  # Escolha aleatória com base em alpha
+    
+    # Continuação do processo guloso após escolha aleatória
+    heap = [(0, i) for i in range(dados.n_pistas)]
+    heapq.heapify(heap)
+
+    pistas = [Alocacao(pista=f"Pista {i+1}", sequencia=[]) for i in range(dados.n_pistas)]
     tempo_pistas = [0] * dados.n_pistas
     ultimo_voo_pista = [-1] * dados.n_pistas
+    custo_total = 0
 
-    while C:
-        candidatos = []
-
-        for voo_id in C:
-            melhor_pista = -1
-            menor_multa = float('inf')
-
-            for pista_id in range(dados.n_pistas):
-                tempo_disp = tempo_pistas[pista_id]
-                if ultimo_voo_pista[pista_id] != -1:
-                    anterior = ultimo_voo_pista[pista_id]
-                    tempo_disp += dados.tempos_espera[anterior][voo_id]
-
-                tempo_real = max(tempo_disp, dados.tempos_pouso_decolagem[voo_id])
-                multa = calcular_multa(tempo_real, dados.voos[voo_id])
-
-                if multa < menor_multa:
-                    menor_multa = multa
-                    melhor_pista = pista_id
-
-            candidatos.append((voo_id, melhor_pista, menor_multa))
-
-        g_min = min(c[2] for c in candidatos)
-        g_max = max(c[2] for c in candidatos)
-        limite = g_min + alpha * (g_max - g_min)
-
-        LCR = [c for c in candidatos if c[2] <= limite]
-
-        escolhido = choice(LCR)
-        voo_id, pista_id, _ = escolhido
-
-        # Atualiza solução
-        s[pista_id].append(dados.voos[voo_id])
+    for voo in voos:
+        tempo_disponivel, pista_id = heapq.heappop(heap)
 
         if ultimo_voo_pista[pista_id] != -1:
             anterior = ultimo_voo_pista[pista_id]
-            tempo_pistas[pista_id] += dados.tempos_espera[anterior][voo_id]
-        tempo_pistas[pista_id] = max(tempo_pistas[pista_id], dados.tempos_pouso_decolagem[voo_id])
-        tempo_pistas[pista_id] += dados.voos[voo_id].custo
-        ultimo_voo_pista[pista_id] = voo_id
+            tempo_disponivel += dados.tempos_espera[anterior][voo.id]
+        
+        inicio_real = max(tempo_disponivel, voo.tempo_liberacao)
 
-        C.remove(voo_id)
+        multa = calcular_multa(inicio_real, voo)
+        custo_total += multa
 
-    return s, dados
+        pistas[pista_id].sequencia.append(voo)
+        tempo_pistas[pista_id] = inicio_real + voo.custo
+        ultimo_voo_pista[pista_id] = voo.id
+
+        heapq.heappush(heap, (tempo_pistas[pista_id], pista_id))
+    
+    # Exibição final
+    for pista in pistas:
+        print(f"{pista.pista}")
+        tempo_atual = 0
+        for i, voo in enumerate(pista.sequencia):
+            if i == 0:
+                tempo_atual = max(voo.tempo_liberacao, tempo_atual)
+            else:
+                anterior = pista.sequencia[i-1].id
+                tempo_atual += dados.tempos_espera[anterior][voo.id]
+                tempo_atual = max(voo.tempo_liberacao, tempo_atual)
+            
+            multa = calcular_multa(tempo_atual, voo)
+            print(f"  {voo.nome}  (Início: {tempo_atual}, Multa: {multa})")
+            tempo_atual += voo.custo  
+    
+    print(f"\nCusto total da alocação: {custo_total}\n")
+    return pistas, custo_total, dados
