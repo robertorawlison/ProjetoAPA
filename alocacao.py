@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from typing import List
 from utils import calcular_multa
 from read_document import ler_dados
+from random import choice
 
 @dataclass
 class Voo:
@@ -74,3 +75,56 @@ def alocar_voos(instancia):
     
     print(f"\nCusto total da alocação: {custo_total}\n")
     return pistas, custo_total, dados
+
+# função da fase de construção do GRASP
+def Construcao(instancia, alpha):
+    dados = ler_dados(instancia)
+    s = [[] for _ in range(dados.n_pistas)]  # Solução parcial
+    C = list(range(dados.n_voos))  # Conjunto de candidatos
+    tempo_pistas = [0] * dados.n_pistas
+    ultimo_voo_pista = [-1] * dados.n_pistas
+
+    while C:
+        candidatos = []
+
+        for voo_id in C:
+            melhor_pista = -1
+            menor_multa = float('inf')
+
+            for pista_id in range(dados.n_pistas):
+                tempo_disp = tempo_pistas[pista_id]
+                if ultimo_voo_pista[pista_id] != -1:
+                    anterior = ultimo_voo_pista[pista_id]
+                    tempo_disp += dados.tempos_espera[anterior][voo_id]
+
+                tempo_real = max(tempo_disp, dados.tempos_pouso_decolagem[voo_id])
+                multa = calcular_multa(tempo_real, dados.voos[voo_id])
+
+                if multa < menor_multa:
+                    menor_multa = multa
+                    melhor_pista = pista_id
+
+            candidatos.append((voo_id, melhor_pista, menor_multa))
+
+        g_min = min(c[2] for c in candidatos)
+        g_max = max(c[2] for c in candidatos)
+        limite = g_min + alpha * (g_max - g_min)
+
+        LCR = [c for c in candidatos if c[2] <= limite]
+
+        escolhido = choice(LCR)
+        voo_id, pista_id, _ = escolhido
+
+        # Atualiza solução
+        s[pista_id].append(dados.voos[voo_id])
+
+        if ultimo_voo_pista[pista_id] != -1:
+            anterior = ultimo_voo_pista[pista_id]
+            tempo_pistas[pista_id] += dados.tempos_espera[anterior][voo_id]
+        tempo_pistas[pista_id] = max(tempo_pistas[pista_id], dados.tempos_pouso_decolagem[voo_id])
+        tempo_pistas[pista_id] += dados.voos[voo_id].custo
+        ultimo_voo_pista[pista_id] = voo_id
+
+        C.remove(voo_id)
+
+    return s, dados
