@@ -1,3 +1,4 @@
+from vizinhancas.op2 import two_opt_intra
 from vizinhancas.swap11_inter import swap_1_1_interrotas
 from vizinhancas.swap11_intra import swap_1_1_intrarrotas
 from vizinhancas.swap22_inter import swap_2_2_interrotas
@@ -9,15 +10,15 @@ def VND(pistas, custo_atual, dados):
     k_atual = 0
     while k_atual < k_max:
         if k_atual == 0:
-            solucao_nova, custo_novo = swap_1_1_intrarrotas(pistas, dados)
+            solucao_nova, custo_novo = swap_1_1_interrotas(pistas, dados) 
         elif k_atual == 1:
-            solucao_nova, custo_novo = swap_1_1_interrotas(pistas, dados)
+            solucao_nova, custo_novo = two_opt_intra(pistas,dados)
         elif k_atual == 2:
-            solucao_nova, custo_novo = swap_2_2_interrotas(pistas, dados)
+            solucao_nova, custo_novo = reinsertion_intrarrotas(pistas,dados)
         elif k_atual == 3:
-            solucao_nova, custo_novo = reinsertion_intrarrotas(pistas, dados)
-        else:
             solucao_nova, custo_novo = reinsertion_interrotas(pistas, dados)
+        else:
+            solucao_nova, custo_novo = swap_2_2_interrotas(pistas, dados)
             
         if custo_novo < custo_atual:
             pistas = solucao_nova
