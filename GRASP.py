@@ -1,5 +1,5 @@
 import os
-from alocacao import alocar_voos, Construcao
+from alocacao import alocar_voos, construcao_grasp
 from vizinhancas.vnd import VND
 from vizinhancas.swap11_inter import swap_1_1_interrotas
 from vizinhancas.swap11_intra import swap_1_1_intrarrotas
@@ -14,7 +14,7 @@ def grasp(instancia, alpha, grasp_max):
 
     for _ in range(grasp_max):
         # Fase de construção com critério alpha
-        solucao, dados = Construcao(instancia, alpha)
+        solucao, dados = construcao_grasp(instancia, alpha)
 
         # Fase de busca local (VND)
         solucao = VND(solucao, dados)  # VND é chamada aqui
