@@ -1,11 +1,6 @@
 import os
 from alocacao import alocar_voos
 from vizinhancas.vnd import VND
-from vizinhancas.swap11_inter import swap_1_1_interrotas
-from vizinhancas.swap11_intra import swap_1_1_intrarrotas
-from vizinhancas.swap22_inter import swap_2_2_interrotas
-from vizinhancas.reinsertion_inter import reinsertion_interrotas
-from vizinhancas.reinsertion_intra import reinsertion_intrarrotas
 
 
 '''Script para comparar o desempenho do algoritmo 

@@ -31,7 +31,11 @@ def alocar_voos(instancia):
         for i in range(dados.n_voos)
     ]
 
-    voos.sort(key=lambda v: v.tempo_liberacao)
+    alpha = 1.0
+    beta = 0.5
+    gamma = 0.2
+
+    voos.sort(key=lambda v: alpha * v.tempo_liberacao + beta * v.custo + gamma * v.penalidade)
     heap = [(0,i) for i in range(dados.n_pistas)]
     heapq.heapify(heap)
 

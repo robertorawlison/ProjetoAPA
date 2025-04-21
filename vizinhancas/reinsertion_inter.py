@@ -1,14 +1,14 @@
 from copy import deepcopy
 from utils import calcular_custo_total
 
-def reinsertion_interrotas(pistas, dados):
-    melhor_vizinho = deepcopy(pistas)
-    menor_custo = calcular_custo_total(pistas, dados)
+def reinsercao_interrotas(pistas, dados):
+    melhor_custo = calcular_custo_total(pistas, dados)
+    melhor_movimento = None  # (orig_idx, dest_idx, idx_voo, nova_pos)
 
     n = len(pistas)
 
-    for i in range(n):  # pista origem
-        for j in range(n):  # pista destino
+    for i in range(n):
+        for j in range(n):
             if i == j:
                 continue
 
@@ -16,30 +16,31 @@ def reinsertion_interrotas(pistas, dados):
             pista_destino = pistas[j]
 
             for idx_voo in range(len(pista_origem.sequencia)):
+                voo = pista_origem.sequencia[idx_voo]
+
                 for pos in range(len(pista_destino.sequencia) + 1):
-                    nova_pista_origem = deepcopy(pista_origem)
-                    nova_pista_destino = deepcopy(pista_destino)
+                    # Cria pistas temporárias só com esse movimento específico
+                    temp_origem = pista_origem.sequencia[:idx_voo] + pista_origem.sequencia[idx_voo + 1:]
+                    temp_destino = pista_destino.sequencia[:pos] + [voo] + pista_destino.sequencia[pos:]
 
-                    # Remove voo da origem
-                    voo_removido = nova_pista_origem.sequencia.pop(idx_voo)
-
-                    # Insere na posição 'pos' da pista destino
-                    nova_pista_destino.sequencia.insert(pos, voo_removido)
-
-                    # Monta nova configuração
-                    nova_configuracao = []
+                    pistas_temp = []
                     for k in range(n):
                         if k == i:
-                            nova_configuracao.append(nova_pista_origem)
+                            pistas_temp.append(Alocacao(pista=pistas[i].pista, sequencia=temp_origem))
                         elif k == j:
-                            nova_configuracao.append(nova_pista_destino)
+                            pistas_temp.append(Alocacao(pista=pistas[j].pista, sequencia=temp_destino))
                         else:
-                            nova_configuracao.append(deepcopy(pistas[k]))
+                            pistas_temp.append(pistas[k])
 
-                    custo = calcular_custo_total(nova_configuracao, dados)
+                    custo = calcular_custo_total(pistas_temp, dados)
 
-                    if custo < menor_custo:
-                        menor_custo = custo
-                        melhor_vizinho = nova_configuracao
+                    if custo < melhor_custo:
+                        melhor_custo = custo
+                        melhor_movimento = (i, j, idx_voo, pos)
 
-    return melhor_vizinho, menor_custo
+    if melhor_movimento:
+        i, j, idx_voo, pos = melhor_movimento
+        voo = pistas[i].sequencia.pop(idx_voo)
+        pistas[j].sequencia.insert(pos, voo)
+
+    return pistas, melhor_custo
