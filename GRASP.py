@@ -9,8 +9,21 @@ from vizinhancas.reinsertion_inter import reinsertion_interrotas
 from vizinhancas.reinsertion_intra import reinsertion_intrarrotas
 from utils import calcular_custo_total
 import math
+import sys
+from contextlib import contextmanager
 
-def GRASP(instancia, max_iter=100, alpha=0.3):
+@contextmanager
+def silenciar_stdout():
+    original_stdout = sys.stdout
+    sys.stdout = open(os.devnull, 'w')
+    try:
+        yield
+    finally:
+        sys.stdout.close()
+        sys.stdout = original_stdout
+        
+
+def GRASP(instancia, max_iter=50, alpha=0.3):
     melhor_solucao = None
     melhor_custo = float('inf')
 
@@ -28,34 +41,38 @@ def GRASP(instancia, max_iter=100, alpha=0.3):
 
     return melhor_solucao, melhor_custo
 
-PASTA_INSTANCIAS = "instancias_teste"
-ARQUIVO_SAIDA = "resultados_comparacao.csv"
 
+PASTA_INSTANCIAS = "instancias_teste"
+ARQUIVO_SAIDA = "resultados_comparacao.txt"
+
+# Abre o arquivo para escrita (cria ou substitui)
 with open(ARQUIVO_SAIDA, "w") as f_saida:
-    f_saida.write("instancia;guloso;vnd\n")
+    f_saida.write("╔════════════════════════════════════════════════════╗\n")
+    f_saida.write("║              RESULTADOS DAS INSTÂNCIAS             ║\n")
+    f_saida.write("╠════════════════════════════════════════════════════╣\n")
+    f_saida.write("║ Instância           │  Guloso  │   VND   │  GRASP  ║\n")
+    f_saida.write("╠═════════════════════╪══════════╪═════════╪═════════╣\n")
 
     for nome_arquivo in sorted(os.listdir(PASTA_INSTANCIAS)):
         if nome_arquivo.endswith(".txt"):
             caminho = os.path.join(PASTA_INSTANCIAS, nome_arquivo)
 
-            print(f"📄 Processando {nome_arquivo}...")
-            
             try:
-                # Executa o algoritmo guloso
-                pistas_gulosas, custo_guloso, dados = alocar_voos(caminho)
+                with silenciar_stdout():
+                    # Executa o algoritmo guloso
+                    pistas_gulosas, custo_guloso, dados = alocar_voos(caminho)
 
-                # Executa o VND
-                pistas_vnd, custo_vnd = VND(pistas_gulosas, custo_guloso, dados)
+                    # Executa o VND
+                    pistas_vnd, custo_vnd = VND(pistas_gulosas, custo_guloso, dados)
 
-                # Executa o GRASP
-                melhor_solucao, melhor_custo = GRASP(caminho)
+                    # Executa o GRASP
+                    melhor_solucao, melhor_custo = GRASP(caminho)
 
-
-                # Escreve os resultados no arquivo de saída
-                f_saida.write(f"{nome_arquivo},{custo_guloso},{custo_vnd}, {melhor_custo}\n")
-                
-                print(f"✅ Resultados salvos para {nome_arquivo}.")
+                # Grava os resultados no arquivo
+                f_saida.write(f"║ {nome_arquivo:<20}│ {custo_guloso:>8} │ {custo_vnd:>7} │ {melhor_custo:>7} ║\n")
 
             except Exception as e:
-                print(f"❌ Erro ao processar {nome_arquivo}: {e}")                
+                f_saida.write(f"❌ Erro ao processar {nome_arquivo}: {e}\n")
+
+    f_saida.write("╚════════════════════════════════════════════════════╝\n")
 
