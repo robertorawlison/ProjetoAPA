@@ -1,5 +1,6 @@
 import os
-from alocacao import alocar_voos, construcao_grasp
+from alocacao import alocar_voos, Construcao
+from read_document import ler_dados
 from vizinhancas.vnd import VND
 from vizinhancas.swap11_inter import swap_1_1_interrotas
 from vizinhancas.swap11_intra import swap_1_1_intrarrotas
@@ -7,24 +8,23 @@ from vizinhancas.swap22_inter import swap_2_2_interrotas
 from vizinhancas.reinsertion_inter import reinsertion_interrotas
 from vizinhancas.reinsertion_intra import reinsertion_intrarrotas
 from utils import calcular_custo_total
+import math
 
-def grasp(instancia, alpha, grasp_max):
+def GRASP(instancia, max_iter=100, alpha=0.3):
     melhor_solucao = None
     melhor_custo = float('inf')
 
-    for _ in range(grasp_max):
-        # Fase de construção com critério alpha
-        solucao, dados = construcao_grasp(instancia, alpha)
+    for _ in range(max_iter):
+        # Fase de construção com aleatoriedade e alpha
+        pistas, custo_total, dados = Construcao(instancia, alpha)
 
-        # Fase de busca local (VND)
-        solucao = VND(solucao, dados)  # VND é chamada aqui
+        # Fase de melhoria com VND
+        pistas_vnd, custo_vnd = VND(pistas, custo_total, dados)
 
-        # Avalia a solução
-        custo_atual = calcular_custo_total(solucao, dados)
-
-        if custo_atual < melhor_custo:
-            melhor_solucao = solucao
-            melhor_custo = custo_atual
+        # Verifica se a solução melhorou
+        if custo_vnd < melhor_custo:
+            melhor_custo = custo_vnd
+            melhor_solucao = pistas_vnd
 
     return melhor_solucao, melhor_custo
 
@@ -48,7 +48,8 @@ with open(ARQUIVO_SAIDA, "w") as f_saida:
                 pistas_vnd, custo_vnd = VND(pistas_gulosas, custo_guloso, dados)
 
                 # Executa o GRASP
-                melhor_solucao, melhor_custo = grasp(dados, 0.1, 1000)
+                melhor_solucao, melhor_custo = GRASP(caminho)
+
 
                 # Escreve os resultados no arquivo de saída
                 f_saida.write(f"{nome_arquivo},{custo_guloso},{custo_vnd}, {melhor_custo}\n")
