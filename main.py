@@ -1,45 +1,37 @@
 import os
 from alocacao import alocar_voos
 from vizinhancas.vnd import VND
-from vizinhancas.swap11_inter import swap_1_1_interrotas
-from vizinhancas.swap11_intra import swap_1_1_intrarrotas
-from vizinhancas.swap22_inter import swap_2_2_interrotas
-from vizinhancas.reinsertion_inter import reinsertion_interrotas
-from vizinhancas.reinsertion_intra import reinsertion_intrarrotas
-
-
-'''Script para comparar o desempenho do algoritmo 
-guloso e do VND na alocação de voos em pistas de aeroporto.
-So precisa rodar se mudar algumca coisa no arquivo do vnd.py
-Ele roda todas as instancias que tem na pasta instancias_teste
-e salva os resultados em um arquivo csv'''
+from GRASP import GRASP
+from utils import print_resultados, silenciar_stdout
 
 PASTA_INSTANCIAS = "instancias_teste"
-ARQUIVO_SAIDA = "resultados_comparacao.csv"
 
-with open(ARQUIVO_SAIDA, "w") as f_saida:
-    f_saida.write("instancia;guloso;vnd\n")
+for nome_arquivo in sorted(os.listdir(PASTA_INSTANCIAS)):
+    if nome_arquivo.endswith(".txt"):
+        caminho = os.path.join(PASTA_INSTANCIAS, nome_arquivo)
 
-    for nome_arquivo in sorted(os.listdir(PASTA_INSTANCIAS)):
-        if nome_arquivo.endswith(".txt"):
-            caminho = os.path.join(PASTA_INSTANCIAS, nome_arquivo)
-
-            print(f"📄 Processando {nome_arquivo}...")
-            
+        with open(f"resultados/{nome_arquivo}", "w") as f_saida:
             try:
-                # Executa o algoritmo guloso
-                pistas_gulosas, custo_guloso, dados = alocar_voos(caminho)
+                with silenciar_stdout():
+                    # Executa o algoritmo guloso
+                    pistas_gulosas, custo_guloso, dados = alocar_voos(caminho)
+                    saida = print_resultados(pistas_gulosas, custo_guloso, dados, "Guloso")
+                    f_saida.write(saida)
 
-                # Executa o VND
-                pistas_vnd, custo_vnd = VND(pistas_gulosas, custo_guloso, dados)
+                    # Executa o VND
+                    pistas_vnd, custo_vnd = VND(pistas_gulosas, custo_guloso, dados)
+                    saida = print_resultados(pistas_vnd, custo_vnd, dados, "VND")
+                    f_saida.write(saida)
 
-                # Escreve os resultados no arquivo de saída
-                f_saida.write(f"{nome_arquivo},{custo_guloso},{custo_vnd}\n")
-                
-                print(f"✅ Resultados salvos para {nome_arquivo}.")
+                    # Executa o GRASP
+                    pistas_grasp, custo_grasp, media = GRASP(caminho)
+                    saida = print_resultados(pistas_grasp, custo_grasp, dados, "GRASP")
+                    f_saida.write(saida)
 
             except Exception as e:
-                print(f"❌ Erro ao processar {nome_arquivo}: {e}")                
+                f_saida.write(f"Erro ao processar {nome_arquivo}: {e}\n")
+
+
 
 
 
