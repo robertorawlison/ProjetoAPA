@@ -1,6 +1,5 @@
 from copy import deepcopy
-from utils import calcular_custo_total  # Ou ajuste para onde estiver sua função
-# Certifique-se de passar os dados corretamente quando chamar esta função
+from utils import calcular_custo_total  
 
 def two_opt_intra(pistas, dados):
     melhor_config = None
