@@ -1,0 +1,84 @@
+
+Pista 1:
+  Voo QUICK4 (ID: 3) - Tempo de inicio: 35, Custo: 0
+  Voo QUICK12 (ID: 11) - Tempo de inicio: 112, Custo: 0
+  Voo QUICK17 (ID: 16) - Tempo de inicio: 166, Custo: 1872
+  Voo QUICK8 (ID: 7) - Tempo de inicio: 203, Custo: 1015
+  Voo QUICK15 (ID: 14) - Tempo de inicio: 249, Custo: 0
+  Voo QUICK5 (ID: 4) - Tempo de inicio: 294, Custo: 1258
+  Voo QUICK1 (ID: 0) - Tempo de inicio: 314, Custo: 180
+  Voo QUICK16 (ID: 15) - Tempo de inicio: 376, Custo: 8858
+
+Pista 2:
+  Voo QUICK18 (ID: 17) - Tempo de inicio: 39, Custo: 0
+  Voo QUICK10 (ID: 9) - Tempo de inicio: 114, Custo: 0
+  Voo QUICK9 (ID: 8) - Tempo de inicio: 169, Custo: 0
+  Voo QUICK11 (ID: 10) - Tempo de inicio: 211, Custo: 1344
+  Voo QUICK14 (ID: 13) - Tempo de inicio: 251, Custo: 0
+  Voo QUICK7 (ID: 6) - Tempo de inicio: 337, Custo: 576
+
+Pista 3:
+  Voo QUICK2 (ID: 1) - Tempo de inicio: 89, Custo: 0
+  Voo QUICK3 (ID: 2) - Tempo de inicio: 167, Custo: 0
+  Voo QUICK19 (ID: 18) - Tempo de inicio: 206, Custo: 252
+  Voo QUICK20 (ID: 19) - Tempo de inicio: 251, Custo: 0
+  Voo QUICK6 (ID: 5) - Tempo de inicio: 311, Custo: 96
+  Voo QUICK13 (ID: 12) - Tempo de inicio: 326, Custo: 1026
+
+Custo total da alocacao_Guloso: 16477
+
+Pista 1:
+  Voo QUICK4 (ID: 3) - Tempo de inicio: 35, Custo: 0
+  Voo QUICK10 (ID: 9) - Tempo de inicio: 114, Custo: 0
+  Voo QUICK17 (ID: 16) - Tempo de inicio: 155, Custo: 1344
+  Voo QUICK3 (ID: 2) - Tempo de inicio: 171, Custo: 204
+  Voo QUICK15 (ID: 14) - Tempo de inicio: 249, Custo: 0
+  Voo QUICK16 (ID: 15) - Tempo de inicio: 280, Custo: 602
+  Voo QUICK13 (ID: 12) - Tempo de inicio: 320, Custo: 912
+
+Pista 2:
+  Voo QUICK18 (ID: 17) - Tempo de inicio: 39, Custo: 0
+  Voo QUICK12 (ID: 11) - Tempo de inicio: 112, Custo: 0
+  Voo QUICK8 (ID: 7) - Tempo de inicio: 174, Custo: 0
+  Voo QUICK11 (ID: 10) - Tempo de inicio: 185, Custo: 512
+  Voo QUICK20 (ID: 19) - Tempo de inicio: 251, Custo: 0
+  Voo QUICK7 (ID: 6) - Tempo de inicio: 277, Custo: 96
+  Voo QUICK1 (ID: 0) - Tempo de inicio: 347, Custo: 312
+
+Pista 3:
+  Voo QUICK2 (ID: 1) - Tempo de inicio: 89, Custo: 0
+  Voo QUICK9 (ID: 8) - Tempo de inicio: 169, Custo: 0
+  Voo QUICK19 (ID: 18) - Tempo de inicio: 200, Custo: 0
+  Voo QUICK5 (ID: 4) - Tempo de inicio: 260, Custo: 0
+  Voo QUICK14 (ID: 13) - Tempo de inicio: 274, Custo: 621
+  Voo QUICK6 (ID: 5) - Tempo de inicio: 354, Custo: 182
+
+Custo total da alocacao_VND: 4785
+
+Pista 1:
+  Voo QUICK10 (ID: 9) - Tempo de inicio: 114, Custo: 0
+  Voo QUICK17 (ID: 16) - Tempo de inicio: 155, Custo: 1344
+  Voo QUICK9 (ID: 8) - Tempo de inicio: 171, Custo: 96
+  Voo QUICK19 (ID: 18) - Tempo de inicio: 200, Custo: 0
+  Voo QUICK20 (ID: 19) - Tempo de inicio: 251, Custo: 0
+  Voo QUICK5 (ID: 4) - Tempo de inicio: 273, Custo: 481
+  Voo QUICK1 (ID: 0) - Tempo de inicio: 293, Custo: 96
+  Voo QUICK6 (ID: 5) - Tempo de inicio: 353, Custo: 180
+
+Pista 2:
+  Voo QUICK4 (ID: 3) - Tempo de inicio: 35, Custo: 0
+  Voo QUICK2 (ID: 1) - Tempo de inicio: 89, Custo: 0
+  Voo QUICK3 (ID: 2) - Tempo de inicio: 167, Custo: 0
+  Voo QUICK15 (ID: 14) - Tempo de inicio: 249, Custo: 0
+  Voo QUICK16 (ID: 15) - Tempo de inicio: 280, Custo: 602
+  Voo QUICK7 (ID: 6) - Tempo de inicio: 315, Custo: 400
+
+Pista 3:
+  Voo QUICK18 (ID: 17) - Tempo de inicio: 39, Custo: 0
+  Voo QUICK12 (ID: 11) - Tempo de inicio: 112, Custo: 0
+  Voo QUICK8 (ID: 7) - Tempo de inicio: 174, Custo: 0
+  Voo QUICK11 (ID: 10) - Tempo de inicio: 185, Custo: 512
+  Voo QUICK14 (ID: 13) - Tempo de inicio: 251, Custo: 0
+  Voo QUICK13 (ID: 12) - Tempo de inicio: 306, Custo: 646
+
+Custo total da alocacao_GRASP: 4357
