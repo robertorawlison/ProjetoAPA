@@ -97,20 +97,17 @@ def Construcao(instancia, alpha=0.7):
     custo_total = 0
 
     while voos_disponiveis:
-        # Ordena voos por critério guloso (tempo de liberação)
+
         voos_disponiveis.sort(key=lambda v: v.tempo_liberacao)
         min_val = voos_disponiveis[0].tempo_liberacao
         max_val = voos_disponiveis[-1].tempo_liberacao
         limite = min_val + alpha * (max_val - min_val)
 
-        # Cria LCR com voos cujo tempo de liberação <= limite
         LCR = [v for v in voos_disponiveis if v.tempo_liberacao <= limite]
 
-        # Seleciona aleatoriamente um voo da LCR
         voo = choice(LCR)
         voos_disponiveis.remove(voo)
 
-        # Escolhe a melhor pista (com menor tempo disponível)
         melhor_pista = -1
         melhor_inicio = float('inf')
         menor_multa = float('inf')
@@ -130,13 +127,11 @@ def Construcao(instancia, alpha=0.7):
                 melhor_inicio = inicio_real
                 menor_multa = multa
 
-        # Aloca o voo na melhor pista
         pistas[melhor_pista].sequencia.append(voo)
         tempo_pistas[melhor_pista] = melhor_inicio + voo.custo
         ultimo_voo_pista[melhor_pista] = voo.id
         custo_total += menor_multa
 
-    # Exibição final
     for pista in pistas:
         tempo_atual = 0
         for i, voo in enumerate(pista.sequencia):

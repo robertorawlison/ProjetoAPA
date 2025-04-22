@@ -8,15 +8,14 @@ def GRASP(instancia, max_iter=5, alpha=0.7):
     sum_custo_vnd = 0
 
     for i in range(max_iter):
-        # Fase de construção com aleatoriedade e alpha
+        # Fase de construção 
         pistas, custo_total, dados = Construcao(instancia, alpha)
 
-        # Fase de melhoria com VND
+        # Fase de busca local
         pistas_vnd, custo_vnd = VND(pistas, custo_total, dados)
 
         sum_custo_vnd += custo_vnd
 
-        # Verifica se a solução melhorou
         if custo_vnd < melhor_custo:
             melhor_custo = custo_vnd
             melhor_solucao = pistas_vnd
