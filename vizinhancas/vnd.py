@@ -5,28 +5,24 @@ from vizinhancas.reinsertion_inter import reinsertion_interrotas
 from vizinhancas.reinsertion_intra import reinsertion_intrarrotas
 
 def VND(pistas, custo_atual, dados):
-    k_max = 5 # número de vizinhancas
-    k_atual = 0
-    while k_atual < k_max:
-        if k_atual == 0:
-            solucao_nova, custo_novo = swap_1_1_interrotas(pistas, dados) 
-        elif k_atual == 1:
-            solucao_nova, custo_novo = two_opt_intra(pistas,dados)
-        elif k_atual == 2:
-            solucao_nova, custo_novo = reinsertion_intrarrotas(pistas,dados)
-        elif k_atual == 3:
-            solucao_nova, custo_novo = reinsertion_interrotas(pistas, dados)
-        else:
-            solucao_nova, custo_novo = swap_2_2_interrotas(pistas, dados)
-            
-        if custo_novo < custo_atual:
-            pistas = solucao_nova
-            custo_atual = custo_novo
-            k_atual = 0
-        else:
-            k_atual += 1
-
-    # print do custo da nova alocacao
-    print(f"\nCusto total da alocação VND: {custo_atual}\n")
+    vizinhancas = [
+        swap_1_1_interrotas,
+        reinsertion_intrarrotas,
+        two_opt_intra,
+        reinsertion_interrotas,
+        swap_2_2_interrotas
+    ]
     
+    k_max = len(vizinhancas)
+    k = 0
+    while k < k_max:
+        nova_solucao, novo_custo = vizinhancas[k](pistas, dados)
+        if novo_custo < custo_atual:
+            pistas = nova_solucao
+            custo_atual = novo_custo
+            k = 0
+        else:
+            k += 1
+
+    print(f"\nCusto total da alocação VND: {custo_atual}\n")
     return pistas, custo_atual
